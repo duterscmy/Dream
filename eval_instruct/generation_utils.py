@@ -404,8 +404,8 @@ class DreamGenerationMixin:
 
         # 设置max_beam_size
         max_beam_size = 2  # 可以调整为更大的值
-        entropy_threshhold = -0.1
-        min_high_confidence_len = 2
+        entropy_threshhold = 0.9
+        min_high_confidence_len = 1
         max_high_confidence_len = 5
         print(f"========动态Beam Search自动调整beam size和token/step,平均置信度排序: max_beam_size={max_beam_size},\
             entropy_threshhold={entropy_threshhold},alg={alg},\

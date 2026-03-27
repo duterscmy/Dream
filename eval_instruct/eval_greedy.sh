@@ -1,4 +1,16 @@
 #!/bin/bash
+#SBATCH --job-name="Dream_eval"
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gres=gpu:1                # 请求2块GPU
+#SBATCH --time=24:00:00
+#SBATCH -o slurm.%j.%N.out
+#SBATCH -e slurm.%j.%N.err
+
+### 激活conda环境
+source ~/.bashrc # 你的环境名
+conda activate soar
+
 
 model="/lus/lfs1aip2/projects/public/u6er/mingyu/models/dream-exp-greedy"
 
@@ -25,7 +37,7 @@ do
     --device cuda \
     --batch_size 1 \
     --num_fewshot 0 \
-    --output_path "evals_results/humaneval-len${l}_greedy" \
+    --output_path "evals_results/humaneval-len${l}_greedy_tmp0.1" \
     --log_samples --confirm_run_unsafe_code \
     --apply_chat_template #&> "logs/humaneval-len${l}_greedy.log"
     
