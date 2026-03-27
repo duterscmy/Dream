@@ -32,12 +32,12 @@ do
     echo "====humaneval greedy ${l}===="
     HF_ALLOW_CODE_EVAL=1 accelerate launch --main_process_port 12334 -m lm_eval \
     --model diffllm \
-    --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${l},diffusion_steps=${diffusion_steps},dtype="bfloat16",temperature=0.1,top_p=0.9,alg="maskgit_plus" \
+    --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${l},diffusion_steps=${diffusion_steps},dtype="bfloat16",temperature=0.0,top_p=0.9,alg="maskgit_plus" \
     --tasks humaneval_instruct \
     --device cuda \
     --batch_size 1 \
     --num_fewshot 0 \
-    --output_path "evals_results/humaneval-len${l}_greedy_tmp0.1" \
+    --output_path "evals_results/humaneval-len${l}_greedy_tmp0.0" \
     --log_samples --confirm_run_unsafe_code \
     --apply_chat_template #&> "logs/humaneval-len${l}_greedy.log"
     
