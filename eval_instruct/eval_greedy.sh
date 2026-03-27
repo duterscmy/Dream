@@ -27,36 +27,36 @@ do
     --num_fewshot 0 \
     --output_path "evals_results/humaneval-len${l}_greedy" \
     --log_samples --confirm_run_unsafe_code \
-    --apply_chat_template &> "logs/humaneval-len${l}_greedy.log"
+    --apply_chat_template #&> "logs/humaneval-len${l}_greedy.log"
     
 
-    echo "====mbpp greedy ${l}===="
-    HF_ALLOW_CODE_EVAL=1 accelerate launch --main_process_port 12334 -m lm_eval \
-    --model diffllm \
-    --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${l},diffusion_steps=${diffusion_steps},dtype="bfloat16",temperature=0.1,top_p=0.9,alg="maskgit_plus" \
-    --tasks mbpp_instruct \
-    --device cuda \
-    --batch_size 1 \
-    --num_fewshot 0 \
-    --output_path "evals_results/mbpp-len${l}_ns0_greedy" \
-    --log_samples --confirm_run_unsafe_code \
-    --apply_chat_template &> "logs/mbpp-len${l}_ns0_greedy.log"
+    # echo "====mbpp greedy ${l}===="
+    # HF_ALLOW_CODE_EVAL=1 accelerate launch --main_process_port 12334 -m lm_eval \
+    # --model diffllm \
+    # --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${l},diffusion_steps=${diffusion_steps},dtype="bfloat16",temperature=0.1,top_p=0.9,alg="maskgit_plus" \
+    # --tasks mbpp_instruct \
+    # --device cuda \
+    # --batch_size 1 \
+    # --num_fewshot 0 \
+    # --output_path "evals_results/mbpp-len${l}_ns0_greedy" \
+    # --log_samples --confirm_run_unsafe_code \
+    # --apply_chat_template &> "logs/mbpp-len${l}_ns0_greedy.log"
 
-    # 递增端口号
-    current_port=$((port))
-    port=$((port + 1))
+    # # 递增端口号
+    # current_port=$((port))
+    # port=$((port + 1))
     
-    echo "====gsm8k greedy ${l}===="
-    accelerate launch --main_process_port 12334 -m lm_eval \
-    --model diffllm \
-    --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${l},diffusion_steps=${diffusion_steps},dtype="bfloat16",temperature=0.1,top_p=0.9,alg="maskgit_plus" \
-    --tasks gsm8k_cot \
-    --device cuda \
-    --batch_size 1 \
-    --num_fewshot 0 \
-    --output_path "evals_results/gsm8k-len${l}_ns4_greedy" \
-    --log_samples --confirm_run_unsafe_code \
-    --apply_chat_template &> "logs/gsm8k-len${l}_ns4_greedy.log"
+    # echo "====gsm8k greedy ${l}===="
+    # accelerate launch --main_process_port 12334 -m lm_eval \
+    # --model diffllm \
+    # --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${l},diffusion_steps=${diffusion_steps},dtype="bfloat16",temperature=0.1,top_p=0.9,alg="maskgit_plus" \
+    # --tasks gsm8k_cot \
+    # --device cuda \
+    # --batch_size 1 \
+    # --num_fewshot 0 \
+    # --output_path "evals_results/gsm8k-len${l}_ns4_greedy" \
+    # --log_samples --confirm_run_unsafe_code \
+    # --apply_chat_template &> "logs/gsm8k-len${l}_ns4_greedy.log"
     
     echo "完成长度 ${l} 的所有任务评估"
     echo "----------------------------------------"
