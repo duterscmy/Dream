@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=eval_gsm8k_base
-#SBATCH --time=4:30:00
+#SBATCH --job-name=eval_math500_base
+#SBATCH --time=3:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:1
@@ -23,12 +23,12 @@ num_fewshot=0
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-origin-block
 cp generate_functions/generation_utils.origin_block.py $model/generation_utils.py
 max_new_tokens=256
-echo "====gsm8k standard block ${max_new_tokens}===="
+echo "====math500 standard block ${max_new_tokens}===="
 accelerate launch eval.py --model dream  \
     --model_args pretrained=${model},add_bos_token=true,trust_remote_code=True,max_new_tokens=${max_new_tokens},diffusion_steps=${max_new_tokens},dtype="bfloat16",temperature=0.0,alg="maskgit_plus" \
-    --tasks gsm8k_cot \
+    --tasks minerva_math500 \
     --device cuda \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
-    --output_path "evals_results/standard_block/gsm8k-standard-block-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/gsm8k-standard-block-len${max_new_tokens}_${num_fewshot}shot.log"
+    --output_path "evals_results/standard_block/math500-standard-block-len${max_new_tokens}_${num_fewshot}shot" \
+    --log_samples --confirm_run_unsafe_code &> "logs/math500-standard-block-len${max_new_tokens}_${num_fewshot}shot.log"
