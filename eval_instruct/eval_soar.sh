@@ -64,15 +64,15 @@ do
     # current_port=$((port))
     # port=$((port + 1))
     
-    # echo "====gsm8k adaptive parallel beam search ${l}===="
-    # accelerate launch --main_process_port ${current_port} eval.py --model dream \
-    #     --model_args "pretrained=${model},max_new_tokens=${l},diffusion_steps=${diffusion_steps},add_bos_token=true,temperature=0.0,top_p=0.95,torch_dtype=torch.bfloat16" \
-    #     --tasks gsm8k_cot \
-    #     --num_fewshot 4 \
-    #     --batch_size 1 \
-    #     --output_path "evals_results/gsm8k-len${l}_ns4_adaptive_parallel_beam2" \
-    #     --log_samples \
-    #     --confirm_run_unsafe_code &> "logs/gsm8k-len${l}_ns4_adaptive_parallel_beam2.log"
+    echo "====gsm8k adaptive parallel beam search ${l}===="
+    accelerate launch --main_process_port ${current_port} eval.py --model dream \
+        --model_args "pretrained=${model},max_new_tokens=${l},diffusion_steps=${diffusion_steps},add_bos_token=true,temperature=0.0,top_p=0.95,torch_dtype=torch.bfloat16" \
+        --tasks gsm8k_cot \
+        --num_fewshot 4 \
+        --batch_size 1 \
+        --output_path "evals_results/gsm8k-len${l}_ns4_adaptive_parallel_beam2" \
+        --log_samples \
+        --confirm_run_unsafe_code &> "logs/gsm8k-len${l}_ns4_adaptive_parallel_beam2.log"
     
     echo "完成长度 ${l} 的所有任务评估"
     echo "----------------------------------------"
