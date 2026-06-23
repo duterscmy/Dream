@@ -10,11 +10,11 @@
 
 source ~/.bashrc
 conda activate ttrl_env
-cd /mnt/fast/nobackup/scratch4weeks/mc03002/prophet
+cd /mnt/fast/nobackup/scratch4weeks/mc03002/dream
 export HF_ENDPOINT=https://hf-mirror.com
 export HF_DATASETS_OFFLINE=0
 mkdir -p logs
-mkdir -p evals_results/baseline
+mkdir -p evals_results/standard_block
 
 length=256
 block=32
@@ -30,5 +30,5 @@ accelerate launch --main_process_port 12334 -m lm_eval \
     --device cuda \
     --batch_size 1 \
     --num_fewshot 0 \
-    --output_path "evals_results/gsm8k-standard-len${max_new_tokens}_0shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/gsm8k-standard-len${max_new_tokens}_0shot.log"
+    --output_path "evals_results/standard_block/gsm8k-standard-block-len${max_new_tokens}_0shot" \
+    --log_samples --confirm_run_unsafe_code #&> "logs/gsm8k-standard-block-len${max_new_tokens}_0shot.log"
