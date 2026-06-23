@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=eval_gsm8k_base
-#SBATCH --time=4:00:00
+#SBATCH --time=4:30:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:1
@@ -30,4 +30,4 @@ accelerate launch eval.py --model dream  \
     --batch_size 1 \
     --num_fewshot 0 \
     --output_path "evals_results/standard_block/gsm8k-standard-block-len${max_new_tokens}_0shot" \
-    --log_samples --confirm_run_unsafe_code #&> "logs/gsm8k-standard-block-len${max_new_tokens}_0shot.log"
+    --log_samples --confirm_run_unsafe_code &> "logs/gsm8k-standard-block-len${max_new_tokens}_0shot.log"
