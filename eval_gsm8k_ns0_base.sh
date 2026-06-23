@@ -24,7 +24,6 @@ cp generate_functions/generation_utils.origin_block.py $model/generation_utils.p
 max_new_tokens=256
 echo "====gsm8k standard block ${max_new_tokens}===="
 accelerate launch --main_process_port 12334 -m lm_eval \
-    --model diffllm \
     --model_args pretrained=${model},trust_remote_code=True,max_new_tokens=${max_new_tokens},diffusion_steps=${max_new_tokens},dtype="bfloat16",temperature=0.0,alg="maskgit_plus" \
     --tasks gsm8k_cot_zeroshot \
     --device cuda \
