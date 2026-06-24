@@ -21,7 +21,7 @@ length=256
 block=32
 num_fewshot=3
 threshold=0.9
-calibrated_threshold=token_threshold_on_trainset/math500_3shot_token_threshold_grid_p99.5_mincount200_minaccepted100.json
+calibrated_threshold=token_threshold_on_trainset/math500_3shot_token_threshold_grid_p99.5_mincount200_minaccepted100.json 
 
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-dynamic-block
 cp generate_functions/generation_utils.dynamic_block.py $model/generation_utils.py
