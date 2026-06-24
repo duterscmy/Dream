@@ -20,7 +20,7 @@ mkdir -p evals_results/adaptive_block
 length=256
 block=32
 num_fewshot=3
-threshold=0.8
+threshold=0.9
 
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-adaptive-block
 cp generate_functions/generation_utils.adaptive_block.py $model/generation_utils.py
@@ -33,4 +33,4 @@ accelerate launch eval.py --model dream  \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
     --output_path "evals_results/adaptive_block/gsm8k-adaptive-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code #&> "logs/gsm8k-adaptive-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot.log"
+    --log_samples --confirm_run_unsafe_code &> "logs/gsm8k-adaptive-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot.log"
