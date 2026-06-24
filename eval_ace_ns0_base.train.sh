@@ -33,5 +33,5 @@ accelerate launch eval.py --model dream  \
     --device cuda \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
-    --output_path "evals_results/standard_block/ace-standard-block-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/ace-standard-block-len${max_new_tokens}_${num_fewshot}shot.log"
+    --output_path "evals_results/standard_block/ace-train-standard-block-len${max_new_tokens}_${num_fewshot}shot" \
+    --log_samples --confirm_run_unsafe_code &> "logs/ace-train-standard-block-len${max_new_tokens}_${num_fewshot}shot.log"
