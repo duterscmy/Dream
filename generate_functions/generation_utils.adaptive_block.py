@@ -400,7 +400,7 @@ class DreamGenerationMixin:
         eps = generation_config.eps
 
         alg = generation_config.alg
-        alg = "maskgit_plus"
+        # alg = "maskgit_plus"
 
         temperature = generation_config.temperature
         top_p = generation_config.top_p

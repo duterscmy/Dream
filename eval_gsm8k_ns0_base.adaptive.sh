@@ -27,7 +27,7 @@ cp generate_functions/generation_utils.adaptive_block.py $model/generation_utils
 max_new_tokens=256
 echo "====gsm8k adaptive block ${max_new_tokens}===="
 accelerate launch eval.py --model dream  \
-    --model_args pretrained=${model},threshold=${threshold},add_bos_token=true,trust_remote_code=True,max_new_tokens=${max_new_tokens},diffusion_steps=${max_new_tokens},dtype="bfloat16",temperature=0.0,alg="maskgit_plus" \
+    --model_args pretrained=${model},threshold=${threshold},print_all_token_records=false,add_bos_token=true,trust_remote_code=True,max_new_tokens=${max_new_tokens},diffusion_steps=${max_new_tokens},dtype="bfloat16",temperature=0.0,alg="maskgit_plus" \
     --tasks gsm8k_cot \
     --device cuda \
     --batch_size 1 \

@@ -49,6 +49,8 @@ class Dream(LM):
         alg: Optional[str] = "entropy",
         alg_temp: Optional[float] = 0.0,
         escape_until: Optional[bool] = False,
+       threshold: Optional[float] = 0.9,
+        print_all_token_records: Optional[bool] = False,
         **kwargs,
     ) -> None:
         super().__init__()
@@ -170,6 +172,8 @@ class Dream(LM):
         self.alg = alg
         self.alg_temp = alg_temp
         self.escape_until = escape_until
+        self.threshold = threshold
+        self.print_all_token_records = print_all_token_records
 
         # loglikelihood params
         self.nll_type = nll_type
@@ -278,6 +282,8 @@ class Dream(LM):
             top_k=self.top_k,
             alg=self.alg,
             alg_temp=self.alg_temp,
+            threshold=self.threshold,
+            print_all_token_records=self.print_all_token_records
         )
 
         # decode
