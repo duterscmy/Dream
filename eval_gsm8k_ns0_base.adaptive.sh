@@ -33,4 +33,4 @@ accelerate launch eval.py --model dream  \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
     --output_path "evals_results/adaptive_block/gsm8k-adaptive-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/gsm8k-adaptive-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot.log"
+    --log_samples --confirm_run_unsafe_code #&> "logs/gsm8k-adaptive-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot.log"
