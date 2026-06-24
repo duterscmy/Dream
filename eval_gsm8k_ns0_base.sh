@@ -13,7 +13,7 @@ conda activate ttrl_env
 cd /mnt/fast/nobackup/scratch4weeks/mc03002/dream
 export HF_ENDPOINT=https://hf-mirror.com
 export HF_DATASETS_OFFLINE=0
-export HF_ALLOW_CODE_EVAL=1
+
 mkdir -p logs
 mkdir -p evals_results/standard_block
 
