@@ -20,7 +20,7 @@ mkdir -p evals_results/adaptive_block
 
 length=256
 block=32
-num_fewshot=3
+num_fewshot=0
 threshold=0.9
 max_new_tokens=256
 
