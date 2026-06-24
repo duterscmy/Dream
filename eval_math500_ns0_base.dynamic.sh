@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eval_gsm8k_dynamic
+#SBATCH --job-name=eval_math500_dynamic
 #SBATCH --time=4:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -21,18 +21,18 @@ length=256
 block=32
 num_fewshot=3
 threshold=0.9
-calibrated_threshold=token_threshold_on_trainset/gsm8k_3shot_token_threshold_grid_p99.5_mincount200_minaccepted100.json
+calibrated_threshold=token_threshold_on_trainset/math500_3shot_token_threshold_grid_p99.5_mincount200_minaccepted100.json
 
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-dynamic-block
 cp generate_functions/generation_utils.dynamic_block.py $model/generation_utils.py
 max_new_tokens=256
 
-echo "====gsm8k dynamic block ${max_new_tokens}===="
+echo "====math500 dynamic block ${max_new_tokens}===="
 accelerate launch eval.py --model dream  \
     --model_args pretrained=${model},threshold=${threshold},calibrated_threshold=${calibrated_threshold},print_all_token_records=false,add_bos_token=true,trust_remote_code=True,max_new_tokens=${max_new_tokens},diffusion_steps=${max_new_tokens},dtype="bfloat16",temperature=0.0,alg="maskgit_plus" \
-    --tasks gsm8k_cot \
+    --tasks minerva_math500 \
     --device cuda \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
-    --output_path "evals_results/dynamic_block/gsm8k-dynamic-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/gsm8k-dynamic-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot.log"
+    --output_path "evals_results/dynamic_block/math500-dynamic-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot" \
+    --log_samples --confirm_run_unsafe_code &> "logs/math500-dynamic-block-threshold${threshold}-len${max_new_tokens}_${num_fewshot}shot.log"
