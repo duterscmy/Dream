@@ -49,7 +49,8 @@ class Dream(LM):
         alg: Optional[str] = "entropy",
         alg_temp: Optional[float] = 0.0,
         escape_until: Optional[bool] = False,
-       threshold: Optional[float] = 0.9,
+        threshold: Optional[float] = 0.9,
+        calibrated_threshold: Optional[str] = None,
         print_all_token_records: Optional[bool] = False,
         **kwargs,
     ) -> None:
@@ -173,6 +174,7 @@ class Dream(LM):
         self.alg_temp = alg_temp
         self.escape_until = escape_until
         self.threshold = threshold
+        self.calibrated_threshold = calibrated_threshold
         self.print_all_token_records = print_all_token_records
 
         # loglikelihood params
@@ -283,7 +285,8 @@ class Dream(LM):
             alg=self.alg,
             alg_temp=self.alg_temp,
             threshold=self.threshold,
-            print_all_token_records=self.print_all_token_records
+            print_all_token_records=self.print_all_token_records,
+            calibrated_threshold=self.calibrated_threshold,
         )
 
         # decode

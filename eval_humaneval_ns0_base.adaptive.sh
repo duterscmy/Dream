@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eval_humaneval_base
+#SBATCH --job-name=eval_humaneval_adaptive
 #SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

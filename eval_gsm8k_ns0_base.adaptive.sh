@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eval_gsm8k_base
+#SBATCH --job-name=eval_gsm8k_adaptive
 #SBATCH --time=4:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
