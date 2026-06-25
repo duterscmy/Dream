@@ -28,6 +28,7 @@ max_new_tokens=256
 echo "====ace standard block ${max_new_tokens}===="
 accelerate launch eval.py --model dream  \
     --model_args pretrained=${model},escape_until=true,add_bos_token=true,trust_remote_code=True,max_new_tokens=${max_new_tokens},diffusion_steps=${max_new_tokens},dtype="bfloat16",temperature=0.0,alg="maskgit_plus" \
+    --include_path local_tasks \
     --tasks acecode_generate \
     --limit 5000 \
     --device cuda \
