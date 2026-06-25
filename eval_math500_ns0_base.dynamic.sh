@@ -35,5 +35,5 @@ accelerate launch eval.py --model dream  \
     --device cuda \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
-    --output_path "evals_results/dynamic_block/math500-dynamic-block-threshold${threshold}-correct_ratio${correct_ratio:.1f}-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/math500-dynamic-block-threshold${threshold}-correct_ratio${correct_ratio:.1f}-len${max_new_tokens}_${num_fewshot}shot.log"
+    --output_path "evals_results/dynamic_block/math500-dynamic-block-threshold${threshold}-correct_ratio${correct_ratio}-len${max_new_tokens}_${num_fewshot}shot" \
+    --log_samples --confirm_run_unsafe_code &> "logs/math500-dynamic-block-threshold${threshold}-correct_ratio${correct_ratio}-len${max_new_tokens}_${num_fewshot}shot.log"
