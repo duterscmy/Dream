@@ -20,7 +20,7 @@ mkdir -p evals_results/dynamic_block
 
 length=256
 block=32
-num_fewshot=3
+num_fewshot=0
 threshold=0.9
 correct_ratio=100.0
 calibrated_threshold=token_threshold_on_trainset/global_dream_3shot_token_threshold_grid_p${correct_ratio}_mincount200_minaccepted100.json
