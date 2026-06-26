@@ -402,18 +402,32 @@ class DreamGenerationMixin:
         eps = generation_config.eps
 
         alg = generation_config.alg
-
         temperature = generation_config.temperature
         top_p = generation_config.top_p
         top_k = generation_config.top_k
 
         block_size = getattr(generation_config, "block_size", 32)
 
-        # Default threshold
+        # =========================
+        # Threshold args
+        # =========================
         fixed_threshold = getattr(generation_config, "threshold", None)
         if fixed_threshold is None:
             fixed_threshold = 0.9
         fixed_threshold = float(fixed_threshold)
+
+        max_threshold = getattr(generation_config, "fixed_threshold", None)
+        if max_threshold is None:
+            max_threshold = fixed_threshold
+        max_threshold = float(max_threshold)
+
+        min_threshold = getattr(generation_config, "min_threshold", None)
+        if min_threshold is None:
+            min_threshold = 0.01
+        min_threshold = float(min_threshold)
+
+        # Clip default threshold
+        fixed_threshold = max(min_threshold, min(max_threshold, fixed_threshold))
 
         # Calibrated token-level threshold json path
         calibrated_threshold_path = getattr(generation_config, "calibrated_threshold", None)
@@ -426,16 +440,20 @@ class DreamGenerationMixin:
                 with open(calibrated_threshold_path, "r", encoding="utf-8") as f:
                     raw_threshold_map = json.load(f)
 
-                # JSON key is string token_id, value is threshold
+                # JSON key is string token_id, value is threshold.
+                # Apply min/max clipping here.
                 token_threshold_map = {
-                    int(k): float(v)
+                    int(k): max(min_threshold, min(max_threshold, float(v)))
                     for k, v in raw_threshold_map.items()
                     if v is not None
                 }
 
                 print(
                     f"[INFO] Loaded calibrated token thresholds from {calibrated_threshold_path}. "
-                    f"num_tokens={len(token_threshold_map)}, default_threshold={fixed_threshold}",
+                    f"num_tokens={len(token_threshold_map)}, "
+                    f"default_threshold={fixed_threshold}, "
+                    f"min_threshold={min_threshold}, "
+                    f"max_threshold={max_threshold}",
                     flush=True,
                 )
             else:
@@ -468,7 +486,9 @@ class DreamGenerationMixin:
 
         print(
             f"======== Dream {decoding_method}: "
-            f"alg={alg}, temperature={temperature}, default_threshold={fixed_threshold}, "
+            f"alg={alg}, temperature={temperature}, "
+            f"default_threshold={fixed_threshold}, "
+            f"min_threshold={min_threshold}, max_threshold={max_threshold}, "
             f"calibrated_threshold={calibrated_threshold_path}, "
             f"steps={steps}, max_length={max_length}, block_size={block_size}, "
             f"num_blocks={num_blocks}, steps_per_block={steps_per_block} ==========",
@@ -608,6 +628,7 @@ class DreamGenerationMixin:
 
                             # Use token-level calibrated threshold if exists.
                             # Otherwise fallback to default fixed_threshold.
+                            # token_threshold_map and fixed_threshold are already clipped.
                             tau = token_threshold_map.get(token_id, fixed_threshold)
 
                             if conf >= tau:
@@ -720,6 +741,8 @@ class DreamGenerationMixin:
         print(f"Avg tokens per decoding step: {avg_tokens_per_decoding_step:.4f}", flush=True)
         print(f"All candidate token records: {len(all_token_records)}", flush=True)
         print(f"Default threshold: {fixed_threshold}", flush=True)
+        print(f"Min threshold: {min_threshold}", flush=True)
+        print(f"Max threshold: {max_threshold}", flush=True)
         print(f"Calibrated threshold file: {calibrated_threshold_path}", flush=True)
         print(f"Num calibrated token thresholds: {len(token_threshold_map)}", flush=True)
 
@@ -738,6 +761,8 @@ class DreamGenerationMixin:
                     "num_blocks": int(num_blocks),
                     "steps_per_block": int(steps_per_block),
                     "default_threshold": float(fixed_threshold),
+                    "min_threshold": float(min_threshold),
+                    "max_threshold": float(max_threshold),
                     "calibrated_threshold": calibrated_threshold_path,
                     "num_calibrated_token_thresholds": int(len(token_threshold_map)),
                     "decoding_method": decoding_method,
