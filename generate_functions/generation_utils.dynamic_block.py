@@ -117,6 +117,7 @@ class DreamGenerationConfig(GenerationConfig):
         self.alg_temp: Optional[float] = kwargs.pop("alg_temp", None)
         self.threshold: Optional[float] = kwargs.pop("threshold", None)
         self.calibrated_threshold: Optional[str] = kwargs.pop("calibrated_threshold", None)
+        self.min_threshold: Optional[float] = kwargs.pop("min_threshold", None)
         
         # Parameters that define the output variables of `generate`
         self.num_return_sequences: int = kwargs.pop("num_return_sequences", 1)
