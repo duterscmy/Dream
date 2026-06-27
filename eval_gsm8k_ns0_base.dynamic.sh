@@ -21,7 +21,7 @@ length=256
 block=32
 num_fewshot=3
 threshold=0.9
-correct_ratio=100.0
+correct_ratio=99.8
 calibrated_threshold=token_threshold_on_trainset/global_dream_3shot_token_threshold_grid_p${correct_ratio}_mincount200_minaccepted100.json
 
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-dynamic-block
