@@ -433,37 +433,55 @@ class DreamGenerationMixin:
         # Calibrated token-level threshold json path
         calibrated_threshold_path = getattr(generation_config, "calibrated_threshold", None)
 
+                # =========================
+        # Load calibrated thresholds once and cache on self
+        # =========================
         token_threshold_map = {}
+
         if calibrated_threshold_path is not None and str(calibrated_threshold_path).lower() not in ["none", "null", ""]:
             calibrated_threshold_path = str(calibrated_threshold_path)
 
-            if os.path.exists(calibrated_threshold_path):
-                with open(calibrated_threshold_path, "r", encoding="utf-8") as f:
-                    raw_threshold_map = json.load(f)
+            # Cache key should include min/max threshold, because clipping depends on them.
+            cache_key = (
+                calibrated_threshold_path,
+                float(min_threshold),
+                float(max_threshold),
+            )
 
-                # JSON key is string token_id, value is threshold.
-                # Apply min/max clipping here.
-                token_threshold_map = {
-                    int(k): max(min_threshold, min(max_threshold, float(v)))
-                    for k, v in raw_threshold_map.items()
-                    if v is not None
-                }
+            if not hasattr(self, "_calibrated_threshold_cache"):
+                self._calibrated_threshold_cache = {}
 
-                print(
-                    f"[INFO] Loaded calibrated token thresholds from {calibrated_threshold_path}. "
-                    f"num_tokens={len(token_threshold_map)}, "
-                    f"default_threshold={fixed_threshold}, "
-                    f"min_threshold={min_threshold}, "
-                    f"max_threshold={max_threshold}",
-                    flush=True,
-                )
+            if cache_key in self._calibrated_threshold_cache:
+                token_threshold_map = self._calibrated_threshold_cache[cache_key]
+
             else:
-                print(
-                    f"[WARN] calibrated_threshold file not found: {calibrated_threshold_path}. "
-                    f"Fallback to fixed threshold={fixed_threshold}",
-                    flush=True,
-                )
+                if os.path.exists(calibrated_threshold_path):
+                    with open(calibrated_threshold_path, "r", encoding="utf-8") as f:
+                        raw_threshold_map = json.load(f)
 
+                    token_threshold_map = {
+                        int(k): max(min_threshold, min(max_threshold, float(v)))
+                        for k, v in raw_threshold_map.items()
+                        if v is not None
+                    }
+
+                    self._calibrated_threshold_cache[cache_key] = token_threshold_map
+
+                    print(
+                        f"[INFO] Loaded calibrated token thresholds ONCE from {calibrated_threshold_path}. "
+                        f"num_tokens={len(token_threshold_map)}, "
+                        f"default_threshold={fixed_threshold}, "
+                        f"min_threshold={min_threshold}, "
+                        f"max_threshold={max_threshold}",
+                        flush=True,
+                    )
+
+                else:
+                    print(
+                        f"[WARN] calibrated_threshold file not found: {calibrated_threshold_path}. "
+                        f"Fallback to fixed threshold={fixed_threshold}",
+                        flush=True,
+                    )
         print_all_token_records = getattr(generation_config, "print_all_token_records", False)
 
         histories = [] if (return_dict_in_generate and output_history) else None

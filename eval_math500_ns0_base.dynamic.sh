@@ -21,8 +21,10 @@ length=256
 block=32
 num_fewshot=3
 threshold=0.9
-correct_ratio=100.0
-calibrated_threshold=token_threshold_on_trainset/global_dream_3shot_token_threshold_grid_p${correct_ratio}_mincount200_minaccepted100.json
+correct_ratio=99.7
+min_count=400
+min_accepted=200
+calibrated_threshold=token_threshold_on_trainset/global_dream_3shot_token_threshold_grid_p${correct_ratio}_mincount${min_count}_minaccepted${min_accepted}.json
 
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-dynamic-block
 cp generate_functions/generation_utils.dynamic_block.py $model/generation_utils.py
@@ -35,5 +37,5 @@ accelerate launch eval.py --model dream  \
     --device cuda \
     --batch_size 1 \
     --num_fewshot ${num_fewshot} \
-    --output_path "evals_results/dynamic_block/math500-dynamic-block-global-threshold${threshold}-correct_ratio${correct_ratio}-len${max_new_tokens}_${num_fewshot}shot" \
-    --log_samples --confirm_run_unsafe_code &> "logs/math500-dynamic-block-global-threshold${threshold}-correct_ratio${correct_ratio}-len${max_new_tokens}_${num_fewshot}shot.log"
+    --output_path "evals_results/dynamic_block/math500-dynamic-block-global-threshold${threshold}-correct_ratio${correct_ratio}-len${max_new_tokens}_${num_fewshot}shot-mincount${min_count}-minaccepted${min_accepted}" \
+    --log_samples --confirm_run_unsafe_code &> "logs/math500-dynamic-block-global-threshold${threshold}-correct_ratio${correct_ratio}-len${max_new_tokens}_${num_fewshot}shot-mincount${min_count}-minaccepted${min_accepted}.log"
