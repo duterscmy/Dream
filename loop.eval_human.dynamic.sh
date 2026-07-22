@@ -25,7 +25,7 @@ num_fewshot=0
 correct_ratio=99.5
 min_count=200
 min_accepted=100
-calibrated_threshold=token_threshold_on_trainset/global_dream_3shot_token_threshold_grid_p${correct_ratio}_mincount${min_count}_minaccepted${min_accepted}.json
+calibrated_threshold=token_threshold_on_trainset/math500_3shot_token_threshold_grid_p${correct_ratio}_mincount${min_count}_minaccepted${min_accepted}.json
 
 model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-dynamic-block
 cp generate_functions/generation_utils.dynamic_block.py $model/generation_utils.py
