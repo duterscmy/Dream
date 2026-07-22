@@ -30,7 +30,7 @@ model=/mnt/fast/nobackup/scratch4weeks/mc03002/models/Dream-v0-Base-7B-dynamic-b
 cp generate_functions/generation_utils.dynamic_block.py $model/generation_utils.py
 max_new_tokens=256
 
-for threshold in 0.95 0.90 0.85 0.80 0.75 0.70; do
+for threshold in 0.90 0.85; do
     cp generate_functions/generation_utils.dynamic_block.py $model/generation_utils.py
     echo "====gsm8k dynamic block ${max_new_tokens}===="
     accelerate launch eval.py --model dream  \
